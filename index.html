@@ -30,7 +30,7 @@
                         <div class="input-group number-spinner">
                            <button onclick="phoneCaseHandler(false, 'phone')" class="btn btn-default"><i
                                  class="fas fa-minus"></i></button>
-                           <input id="phone-input" type="text" class="form-control text-center" value="1">
+                           <input onchange="phoneCaseHandler('blurs', 'phone')" id="phone-input" type="text" class="form-control text-center" value="1">
                            <button onclick="phoneCaseHandler(true, 'phone')" class="btn btn-default"><i
                                  class="fas fa-plus"></i></button>
                         </div>
@@ -50,7 +50,7 @@
                         <div class="input-group number-spinner">
                            <button onclick="phoneCaseHandler(false, 'case')" class="btn btn-default"><i
                                  class="fas fa-minus"></i></button>
-                           <input id="case-input" type="text" class="form-control text-center" value="1">
+                           <input onchange="phoneCaseHandler('blurs', 'case')" id="case-input" type="text" class="form-control text-center" value="1">
                            <button onclick="phoneCaseHandler(true, 'case')" class="btn btn-default"><i
                                  class="fas fa-plus"></i></button>
 
@@ -110,6 +110,10 @@
             count = inputNumber - 1;
             countHandler();
          }
+         if(isPlus === 'blurs'){
+            count = inputNumber;
+            countHandler();
+         }
          function countHandler() {
             document.getElementById(phoneCase + "-input").value = count;
             let price;
@@ -120,7 +124,6 @@
                price = count * 59;
             }
             document.getElementById(phoneCase + "-price").innerText = price;
-
             totalCalculations();
          }
       }
