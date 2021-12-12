@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div id='home' class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div id="phone-div" class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="phoneCaseHandler(false, 'phone')" class="btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
+                           <input id="phone-input" type="text" class="form-control text-center" value="1">
+                           <button onclick="phoneCaseHandler(true, 'phone')" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$ <span id="phone-price">1219</span></h5>
+                        <img onclick="phoneCaseRemove('phone')" src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div id="case-div" class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="phoneCaseHandler(false, 'case')" class="btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
+                           <input id="case-input" type="text" class="form-control text-center" value="1">
+                           <button onclick="phoneCaseHandler(true, 'case')" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$ <span id="case-price">59</span></h5>
+                        <img onclick="phoneCaseRemove('case')" src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax(2.5%):</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$ <span id="subtotal">1278.00</span></h5>
+                        <h5>$ <span id="tax">31.95</span></h5>
+                        <h5>$ <span id="total">1309.95</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button onclick="checkOutHandler()" type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+         <div id="order" class="text-center order-detail">
+            <h2>Thank You for your order! <br>
+               Your order has been successfully!!!</h2>
+            <h4 class="pt-5">iPhone 11 128GB - Black Total: <span id="order-phone">0</span> </h4>
+            <h4>iPHone 11 Silicone Case - Black total: <span id="order-case">0</span></h4>
+            <h4>Total Cost: <span id="order-total-amount">0</span></h4>
+            <button class="btn btn-success m-5" onclick="location.reload()">Return Home</button>
+         </div>
+      </div>
+      <div id='does-not-order' class="text-center order-detail">
+         <h4>Sorry, you don't buy any items!</h4>
+         <button class="btn btn-success m-5" onclick="location.reload()">Return Home</button>
+      </div>
+   </section>
+
+   <script>
+      function phoneCaseHandler(isPlus, phoneCase) {
+         const inputValue = document.getElementById(phoneCase + "-input").value;
+         const inputNumber = parseInt(inputValue);
+         let count;
+         if (isPlus === true) {
+            count = inputNumber + 1;
+            countHandler();
+         }
+         if (isPlus === false && inputValue > 0) {
+            count = inputNumber - 1;
+            countHandler();
+         }
+         function countHandler() {
+            document.getElementById(phoneCase + "-input").value = count;
+            let price;
+            if (phoneCase === 'phone') {
+               price = count * 1219;
+            }
+            if (phoneCase === 'case') {
+               price = count * 59;
+            }
+            document.getElementById(phoneCase + "-price").innerText = price;
+
+            totalCalculations();
+         }
+      }
+      function totalCalculations() {
+         const phonePrice = parseInt(document.getElementById('phone-price').innerText);
+         const casePrice = parseInt(document.getElementById('case-price').innerText);
+         const subtotal = phonePrice + casePrice;
+         const tax = (subtotal * 0.025);
+         const total = (tax + subtotal);
+         document.getElementById('subtotal').innerText = subtotal.toFixed(2);
+         document.getElementById('tax').innerText = tax.toFixed(2);
+         document.getElementById('total').innerText = total.toFixed(2);
+      }
+      
+      function phoneCaseRemove(id){
+         document.getElementById(id + '-div').style.display = 'none';
+         document.getElementById(id + '-price').innerText = 0;
+         document.getElementById(id + '-input').value = 0;
+         totalCalculations();
+      }
+
+      function checkOutHandler(){
+         document.getElementById('home').style.display = 'none';
+         const totalValue = parseFloat(document.getElementById('total').innerText);
+         if(totalValue > 0){
+            document.getElementById('order').style.display = 'block';
+         }
+         else{
+            document.getElementById('does-not-order').style.display = 'block';
+         }
+         document.getElementById('order-phone').innerText = document.getElementById('phone-input').value;
+         document.getElementById('order-case').innerText = document.getElementById('case-input').value;
+         document.getElementById('order-total-amount').innerText = totalValue;
+      }
+   </script>
+</body>
+
+</html>
