@@ -30,7 +30,7 @@
                         <div class="input-group number-spinner">
                            <button onclick="phoneCaseHandler(false, 'phone')" class="btn btn-default"><i
                                  class="fas fa-minus"></i></button>
-                           <input onchange="phoneCaseHandler('blurs', 'phone')" id="phone-input" type="text" class="form-control text-center" value="1">
+                           <input onblur="phoneCaseHandler('blur', 'phone')" id="phone-input" type="text" class="form-control text-center" value="1">
                            <button onclick="phoneCaseHandler(true, 'phone')" class="btn btn-default"><i
                                  class="fas fa-plus"></i></button>
                         </div>
@@ -102,7 +102,7 @@
          const inputValue = document.getElementById(phoneCase + "-input").value;
          const inputNumber = parseInt(inputValue);
          let count;
-         if (isPlus === true) {
+         if (isPlus === true && inputValue >= 0) {
             count = inputNumber + 1;
             countHandler();
          }
@@ -110,8 +110,13 @@
             count = inputNumber - 1;
             countHandler();
          }
-         if(isPlus === 'blurs'){
+         if(isPlus === 'blur' && inputValue >= 0){
             count = inputNumber;
+            countHandler();
+         }
+         if(isPlus === 'blur' && inputValue <! 0){
+            alert("Negative Value or Text You can't enter.")
+            count = 0;
             countHandler();
          }
          function countHandler() {
